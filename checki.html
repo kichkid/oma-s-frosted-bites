@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Oma's Frosted Bites</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #ffc107;
+            --secondary: #212529;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            padding-top: 56px; /* Space for fixed navbar */
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 200px); /* Subtract image height */
+        }
+        
+        .card-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .card-text {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+        
+        .price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        
+        .btn-add-to-cart {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn-add-to-cart:hover {
+            background-color: #343a40;
+            transform: translateY(-2px);
+        }
+        
+        .delivery-note {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 8px;
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+        }
+        
+        #checkoutModal .modal-header {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+        
+        #checkoutModal .form-label {
+            font-weight: 500;
+        }
+        
+        .order-item {
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+        }
+
+        .offcanvas-logo {
+      height: 50px;
+    }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .clear-cart-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 767.98px) {
+            body {
+                padding-top: 52px;
+            }
+            
+            .container.py-5 {
+                padding-top: 1.5rem !important;
+                padding-bottom: 1.5rem !important;
+            }
+            
+            .display-5 {
+                font-size: 2rem;
+            }
+            
+            .lead {
+                font-size: 1rem;
+            }
+            
+            .product-img {
+                height: 150px;
+            }
+
+
+            
+            .card-body {
+                padding: 12px;
+            }
+            
+            #checkoutModal .modal-dialog {
+                margin: 0.5rem;
+            }
+            
+            #checkoutModal .modal-content {
+                min-height: 100vh;
+            }
+            
+            #checkoutModal .row {
+                flex-direction: column-reverse;
+            }
+            
+            #checkoutModal .col-md-6 {
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .product-img {
+                height: 180px;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Fixed navbar for mobile */
+        @media (max-width: 991.98px) {
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1030;
+            }
+            
+            .offcanvas {
+                max-width: 80%;
+            }
+        }
+        
+        /* Ensure images don't overflow on small devices */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navbar -->
+    <nav class="navbar navbar-dark bg-dark d-block d-lg-none fixed-top">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler bg-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites Logo" class="navbar-brand-img" style="height: 40px; width: 50px;">
+            </div>
+            <div class="d-flex align-items-center">
+                <button id="viewCartBtn" class="btn btn-warning position-relative">
+                    <i class="bi bi-cart3"></i>
+                    <span id="cartCount" class="cart-badge badge bg-danger rounded-pill">0</span>
+                </button>
+            </div>
+            
+            <div class="offcanvas offcanvas-start bg-dark text-light" id="offcanvasDarkNavbar">
+                <div class="offcanvas-header">
+                    <img src="images/oma bites/omaslogo.jpeg" alt="Logo" style="height: 30px;" />
+                    <h5 class="ms-2 text-warning mb-0">Oma's Frosted Bites</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="productview.html">Order Products</a></li>
+                        
+                    </ul>
+                    <form class="d-flex mt-3">
+                        <input class="form-control me-2" type="search" placeholder="Search" />
+                        <button class="btn btn-warning" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Desktop Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex fixed-top">
+        <div class="container">
+            <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites Logo" style="height: 50px; width: 50px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productview.html">Order Products</a></li>
+                    
+                </ul>
+                <form class="d-flex me-3">
+                    <input class="form-control me-2" type="search" placeholder="Search" />
+                    <button class="btn btn-warning" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <div class="d-flex align-items-center">
+                    <button id="viewCartBtn" class="btn btn-warning position-relative">
+                        <i class="bi bi-cart3"></i>
+                        <span id="cartCount" class="cart-badge badge bg-danger rounded-pill">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Products Section -->
+    <div class="container py-5 mt-3">
+        <div class="text-center mb-4">
+            <h1 class="display-5 fw-bold mb-2">Our Delicious Baked Products</h1>
+            <p class="lead text-muted">Freshly baked with love in Abuja</p>
+        </div>
+        
+        <div class="alert alert-info mb-4">
+            <i class="bi bi-info-circle"></i> Delivery fees vary based on your location within Abuja.
+        </div>
+        
+        <div class="row g-3">
+            <!-- Product 1 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.02.24.jpeg" class="card-img-top product-img" alt="Frosted Wheat Bread">
+                    <div class="card-body">
+                        <h5 class="card-title">Large yummy-Peanuts-pack</h5>
+                        <p class="card-text">Healthy whole wheat groundnut bread with a light frosted topping.</p>
+                        <p class="price">₦10,000</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Frosted Wheat Bread" data-price="1500">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.48.jpeg" class="card-img-top product-img" alt="Nutty Banana Loaf">
+                    <div class="card-body">
+                        <h5 class="card-title">Samosa- inclusive in small chops</h5>
+                        <p class="card-text">Moist banana backed bread pack.</p>
+                        <p class="price">₦500 each</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Nutty Banana Loaf" data-price="2000">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.49 (1).jpeg" class="card-img-top product-img" alt="Chocolate Chip Cookies">
+                    <div class="card-body">
+                        <h5 class="card-title">Chocolate Chip Cookies</h5>
+                        <p class="card-text">Classic cookies with rich chocolate chips.</p>
+                        <p class="price">₦2,500 per pack</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Chocolate Chip Cookies" data-price="800">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.49 (2).jpeg" class="card-img-top product-img" alt="Cinnamon Rolls">
+                    <div class="card-body">
+                        <h5 class="card-title">Cinnamon Rolls</h5>
+                        <p class="card-text">Sweet and fluffy rolls with cinnamon swirl.</p>
+                        <p class="price">₦10,000 per pack</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Cinnamon Rolls" data-price="1200">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 5 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.49 (3).jpeg" class="card-img-top product-img" alt="Whole Grain Buns">
+                    <div class="card-body">
+                        <h5 class="card-title">Whole Grain Buns</h5>
+                        <p class="card-text">Nutritious buns perfect for sandwiches.</p>
+                        <p class="price">₦3,000 mix chops per pack </p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Whole Grain Buns" data-price="1000">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 6 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/0330a1b9-7526-4c31-96e2-24efefa20b03.jpeg" class="card-img-top product-img" alt="Fruit Cake">
+                    <div class="card-body">
+                        <h5 class="card-title">Fruit Cake</h5>
+                        <p class="card-text">Rich cake loaded with mixed fruits.</p>
+                        <p class="price">₦5,500 per pack</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Fruit Cake" data-price="3500">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 7 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/75904788-bc1f-40b3-a6eb-a7655581dbe4.jpeg" class="card-img-top product-img" alt="Pumpkin Bread">
+                    <div class="card-body">
+                        <h5 class="card-title">Pumpkin Bread</h5>
+                        <p class="card-text">Seasonal spiced pumpkin loaf.</p>
+                        <p class="price">₦3,700</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Pumpkin Bread" data-price="2200">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 8 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/95b2e6cb-2025-4361-b9ca-4a3884aea440.jpeg" class="card-img-top product-img" alt="Bagels">
+                    <div class="card-body">
+                        <h5 class="card-title">Bagels</h5>
+                        <p class="card-text">Chewy bagels with various toppings.</p>
+                        <p class="price">₦1,500 each</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Bagels" data-price="900">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 9 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.50.jpeg" class="card-img-top product-img" alt="Croissants">
+                    <div class="card-body">
+                        <h5 class="card-title">Croissants</h5>
+                        <p class="card-text">Buttery, flaky French pastries.</p>
+                        <p class="price">₦5,500 per pack</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Croissants" data-price="1500">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 10 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100">
+                    <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.05.21.jpeg" class="card-img-top product-img" alt="Sourdough Bread">
+                    <div class="card-body">
+                        <h5 class="card-title">Family chocolate size cakes</h5>
+                        <p class="card-text">Artisan sourdough with perfect crust.</p>
+                        <p class="price">₦29,800 each</p>
+                        <button class="btn btn-add-to-cart add-to-cart" data-product="Sourdough Bread" data-price="2800">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                        <p class="delivery-note"><i class="bi bi-truck"></i> Delivery fee calculated at checkout</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="checkoutModalLabel">Your Shopping Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button id="clearCartBtn" class="clear-cart-btn" title="Clear Cart">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                    
+                    <form id="orderForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="fullName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phoneNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="deliveryAddress" class="form-label">Delivery Address</label>
+                                    <textarea class="form-control" id="deliveryAddress" rows="3" required></textarea>
+                                    <small class="text-muted">Include landmarks for easier delivery</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="deliveryNotes" class="form-label">Special Instructions</label>
+                                    <textarea class="form-control" id="deliveryNotes" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Order Summary</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="orderSummary">
+                                            <!-- Order items will be inserted here -->
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-3 fw-bold border-top pt-2">
+                                            <span>Total:</span>
+                                            <span id="orderTotal">₦0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-warning" id="submitOrderBtn">
+                        <i class="bi bi-whatsapp"></i> Complete Order via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <footer class="bg-dark text-light pt-4 pt-md-5 pb-3 mt-3 mt-md-5">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Logo & About -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites" class="offcanvas-logo mb-2 mb-md-3">
+              <p class="small-md">Oma's Frosted Bites delivers healthy, delicious snacks for all ages. We blend fruits, nuts, and wholesome ingredients to create snacks that fuel your day.</p>
+            </div>
+      
+            <!-- Quick Links -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <h5 class="fw-bold h6 h5-md">Quick Links</h5>
+              <ul class="list-unstyled">
+                <li class="mb-1 mb-md-2"><a href="index.html" class="text-light text-decoration-none small-md">Home</a></li>
+                <li class="mb-1 mb-md-2"><a href="productview.html" class="text-light text-decoration-none small-md">Order Products</a></li>
+                
+                <li class="mb-1 mb-md-2"><a href="#" class="text-light text-decoration-none small-md">Contact Us</a></li>
+              </ul>
+            </div>
+      
+            <!-- Contact & Social -->
+            <div class="col-lg-4 col-md-12 mb-4">
+              <h5 class="fw-bold h6 h5-md">Contact Us</h5>
+              <p class="small-md"><i class="bi bi-envelope me-2"></i> <a href="mailto:aginablessing@gmail.com" class="text-light text-decoration-none">aginablessing@gmail.com</a></p>
+              <p class="small-md"><i class="bi bi-phone me-2"></i> +2348177409578</p>
+              <p class="small-md"><i class="bi bi-geo-alt me-2"></i> Abuja, Nigeria</p>
+              <div class="mt-2 mt-md-3">
+                <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light me-2 me-md-3"><i class="bi bi-facebook fs-5 fs-md-4"></i></a>
+                <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light me-2 me-md-3"><i class="bi bi-instagram fs-5 fs-md-4"></i></a>
+                <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light"><i class="bi bi-twitter fs-5 fs-md-4"></i></a>
+              </div>
+            </div>
+          </div>
+          <hr class="border-light">
+          <div class="text-center small text-warning">
+            &copy; <span id="currentYear"></span> Oma's Frosted Bites. All rights reserved.
+          </div>
+        </div>
+      </footer>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cart functionality
+        let cart = [];
+        const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+        
+        // Load cart from localStorage if available
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            updateCartUI();
+        }
+        
+        // Add to cart buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const product = this.getAttribute('data-product');
+                const price = parseInt(this.getAttribute('data-price'));
+                
+                // Prompt for quantity
+                const quantity = prompt(`How many "${product}" would you like to order?`, '1');
+                
+                if (quantity && !isNaN(quantity)) {
+                    const qty = parseInt(quantity);
+                    if (qty > 0) {
+                        // Check if product already in cart
+                        const existingItem = cart.find(item => item.product === product);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += qty;
+                        } else {
+                            cart.push({
+                                product: product,
+                                price: price,
+                                quantity: qty
+                            });
+                        }
+                        
+                        // Save to localStorage
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        
+                        // Update UI
+                        updateCartUI();
+                        
+                        // Success alert with option to add more
+                        const addMore = confirm(`${product} added to cart!\n\nQuantity: ${qty}\n\nDo you want to add more items?`);
+                        
+                        if (!addMore) {
+                            // Visual feedback
+                            this.innerHTML = '<i class="bi bi-check-circle"></i> Added!';
+                            this.classList.remove('btn-dark');
+                            this.classList.add('btn-success');
+                            
+                            setTimeout(() => {
+                                this.innerHTML = '<i class="bi bi-cart-plus"></i> Add to Cart';
+                                this.classList.remove('btn-success');
+                                this.classList.add('btn-dark');
+                            }, 1500);
+                        }
+                    } else {
+                        alert('Please enter a valid quantity (1 or more)');
+                    }
+                }
+            });
+        });
+        
+        // View Cart button
+        document.getElementById('viewCartBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add some products first.');
+                return;
+            }
+            
+            showCartModal();
+        });
+        
+        // Clear Cart button
+        document.getElementById('clearCartBtn').addEventListener('click', function() {
+            if (cart.length === 0) return;
+            
+            const confirmClear = confirm('Are you sure you want to clear your cart?');
+            if (confirmClear) {
+                cart = [];
+                localStorage.removeItem('cart');
+                updateCartUI();
+                showCartModal(); // Refresh the modal view
+            }
+        });
+        
+        // Submit Order button
+        document.getElementById('submitOrderBtn').addEventListener('click', function() {
+            const form = document.getElementById('orderForm');
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            const deliveryNotes = document.getElementById('deliveryNotes').value;
+            
+            if (!fullName || !phoneNumber || !deliveryAddress) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Create WhatsApp message
+            let message = `*NEW ORDER FROM OMA'S FROSTED BITES WEBSITE*\n\n`;
+            message += `*Customer Name:* ${fullName}\n`;
+            message += `*Phone Number:* ${phoneNumber}\n\n`;
+            message += `*Delivery Address:*\n${deliveryAddress}\n\n`;
+            
+            message += `*ORDER DETAILS:*\n`;
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                message += `➡ ${item.product}\n   Quantity: ${item.quantity}\n   Price: ₦${item.price}\n   Subtotal: ₦${itemTotal}\n\n`;
+                total += itemTotal;
+            });
+            
+            message += `*ORDER TOTAL:* ₦${total}\n\n`;
+            
+            if (deliveryNotes) {
+                message += `*SPECIAL INSTRUCTIONS:*\n${deliveryNotes}\n\n`;
+            }
+            
+            message += `*PLEASE CONFIRM:*\n1. Order details\n2. Delivery fee based on location\n3. Estimated delivery time\n4. Payment options\n\nThank you!`;
+            
+            // Encode for WhatsApp URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/2348177409578?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Clear cart after order
+            cart = [];
+            localStorage.removeItem('cart');
+            updateCartUI();
+            
+            // Close modal
+            checkoutModal.hide();
+            
+            // Reset form
+            form.reset();
+        });
+        
+        // Update cart UI
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            
+            // Calculate total items
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update cart count
+            cartCount.textContent = totalItems;
+            cartCount.style.display = totalItems > 0 ? 'block' : 'none';
+        }
+        
+        // Show cart modal with order summary
+        function showCartModal() {
+            const orderSummary = document.getElementById('orderSummary');
+            const orderTotal = document.getElementById('orderTotal');
+            orderSummary.innerHTML = '';
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item d-flex justify-content-between align-items-center';
+                itemElement.innerHTML = `
+                    <div>
+                        <h6 class="mb-1">${item.product}</h6>
+                        <small class="text-muted">${item.quantity} x ₦${item.price}</small>
+                    </div>
+                    <div class="fw-bold">₦${itemTotal}</div>
+                `;
+                orderSummary.appendChild(itemElement);
+            });
+            
+            // Update total
+            orderTotal.textContent = `₦${total}`;
+            
+            // Show modal
+            checkoutModal.show();
+        }
+    </script>
+</body>
+</html>

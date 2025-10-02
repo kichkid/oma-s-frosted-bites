@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oma's Frosted Bites</title>
+  <title>Oma's Frosted Bites - Premium Abuja Baked Goods</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -11,14 +11,106 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
   <!-- Custom CSS -->
   <style>
-    /* Base Styles */
+    :root {
+      --primary: #FF9E44;
+      --primary-dark: #E88A2E;
+      --secondary: #2D2D2D;
+      --accent: #F8E5D0;
+      --light: #FFF9F2;
+      --dark: #1A1A1A;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--secondary);
+      line-height: 1.6;
       overflow-x: hidden;
+      padding-top: 76px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 0.8rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .navbar-brand img {
+      height: 50px;
+      width: auto;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      margin: 0 2px;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--primary) !important;
+    }
+    
+    .hero-section {
+      background: linear-gradient(rgba(45, 45, 45, 0.85), rgba(45, 45, 45, 0.85)), 
+                  url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-title {
+      position: relative;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: var(--primary);
+      margin: 12px auto 0;
+      border-radius: 2px;
     }
     
     /* Animations */
@@ -61,149 +153,274 @@
       75% { transform: rotate(-5deg); }
     }
 
-    /* Responsive Adjustments */
+    /* Carousel Styles */
     .carousel-img-container {
-      height: 300px; /* Smaller on mobile */
+      height: 300px;
+      background: var(--light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     
-    .navbar-brand-img {
-      width: 120px; /* Smaller logo on mobile */
-      height: auto;
-    }
-    
-    .offcanvas-logo {
-      height: 50px;
-    }
-    
-    .content-img {
-      max-height: 300px; /* Adjusted for mobile */
-      width: 100%;
+    .carousel-item img {
+      max-height: 100%;
+      max-width: 100%;
       object-fit: contain;
     }
     
-    .content-section {
-      min-height: auto; /* Remove fixed height */
-      padding: 2rem 0;
+    .carousel-caption {
+      bottom: 20px;
     }
     
-    /* Desktop Styles */
-    @media (min-width: 768px) {
+    .carousel-caption .bg-dark {
+      background-color: rgba(0, 0, 0, 0.7) !important;
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 5%;
+    }
+    
+    /* Content Section Styles */
+    .content-section {
+      padding: 4rem 0;
+    }
+    
+    .content-img {
+      max-height: 400px;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 4px solid white;
+    }
+    
+    .content-highlight {
+      background-color: var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .icon-large {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+    
+    /* Specialties Cards */
+    .specialty-card {
+      transition: all 0.3s ease;
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+      height: 100%;
+      background: white;
+    }
+    
+    .specialty-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .specialty-card .card-body {
+      padding: 20px;
+    }
+    
+    .specialty-card .card-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    /* Footer Styles */
+    footer {
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+      color: white;
+      margin-top: 4rem;
+    }
+    
+    .footer-logo {
+      height: 60px;
+      border-radius: 8px;
+    }
+    
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    
+    .footer-heading:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      margin-right: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 767.98px) {
+      body {
+        padding-top: 66px;
+      }
+      
       .carousel-img-container {
-        height: 500px;
-      }
-      
-      .navbar-brand-img {
-        width: 150px;
-      }
-      
-      .content-img {
-        max-height: 400px;
+        height: 250px;
       }
       
       .content-section {
-        min-height: 500px;
+        padding: 2.5rem 0;
+      }
+      
+      .content-img {
+        max-height: 300px;
+        margin-bottom: 20px;
+      }
+      
+      .footer-section {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      .footer-heading:after {
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
     
-    /* Footer adjustments */
-    footer .col-lg-4 {
-      margin-bottom: 2rem;
-    }
-    
-    /* Specialties cards */
-    .equal-height-col .card {
-      margin-bottom: 1.5rem;
-    }
-    
-    /* Kitchen icons positioning */
-    .position-absolute i {
-      font-size: 1.5rem !important; /* Smaller icons on mobile */
-    }
-    
     @media (min-width: 768px) {
-      .position-absolute i {
-        font-size: 2rem !important;
+      .carousel-img-container {
+        height: 400px;
+      }
+      
+      .content-img {
+        max-height: 450px;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .carousel-img-container {
+        height: 500px;
       }
     }
   </style>
 </head>
-<body class="bg-warning">
+<body>
 
-<!-- Mobile Header -->
-<div class="text-center m-0 p-2 bg-dark text-warning text-decoration-underline">
-  <h6 class="mb-0">Crafted with love, Baked with perfection</h6>
-</div>
-
-<!-- Mobile Navbar -->
-<nav class="navbar navbar-dark bg-dark d-block d-lg-none">
-  <div class="container-fluid">
-    <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites Logo" class="navbar-brand-img" style="height: 40px; width: 50px;">
-    <button class="navbar-toggler bg-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="offcanvas offcanvas-end bg-dark text-light" id="offcanvasDarkNavbar">
-      <div class="offcanvas-header">
-        <img src="images/oma bites/omaslogo.jpeg" alt="Logo" class="offcanvas-logo" />
-        <h5 class="ms-2 text-warning">Oma's Frosted Bites</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="productview.html">Order Products</a></li>
-          
-        </ul>
-        <form class="d-flex mt-3">
-          <input class="form-control me-2" type="search" placeholder="Search" />
-          <button class="btn btn-warning" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<!-- Desktop Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex">
-  <div class="container-fluid">
-    <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites Logo" class="navbar-brand-img" style="height: 40px; width: 50px;">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites Logo">
+      Oma's Frosted Bites
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="productview.html">Order Products</a></li>
-        
+        <li class="nav-item"><a class="nav-link" href="productview.html">Our Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
       </ul>
-      <form class="d-flex ms-auto">
-        <input class="form-control me-2" type="search" placeholder="Search" />
-        <button class="btn btn-warning" type="submit">Search</button>
-      </form>
+      <div class="d-flex align-items-center">
+        <a href="productview.html" class="btn btn-warning">
+          <i class="bi bi-cart3"></i> Order Now
+        </a>
+      </div>
     </div>
   </div>
 </nav>
 
+<!-- Hero Banner -->
+<div class="hero-section">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-3">Oma's Frosted Bites</h1>
+    <p class="lead mb-4">Premium Baked Goods Crafted with Love in Abuja</p>
+    <a href="productview.html" class="btn btn-warning btn-lg">
+      <i class="bi bi-basket me-2"></i> Shop Our Products
+    </a>
+  </div>
+</div>
+
 <!-- Carousel -->
-<div id="mainCarousel" class="carousel slide mt-5 container-fluid" data-bs-ride="carousel">
+<div id="mainCarousel" class="carousel slide container mb-5" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
     <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
   </div>
-  <div class="carousel-inner">
+  <div class="carousel-inner rounded-3 overflow-hidden shadow-lg">
     <!-- First Slide -->
     <div class="carousel-item active">
-      <div class="carousel-img-container bg-light d-flex justify-content-center align-items-center">
+      <div class="carousel-img-container">
         <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.07.10.jpeg" 
              class="img-fluid" 
-             alt="Healthy nutritional snacks"
-             style="max-height: 100%; max-width: 100%; object-fit: contain;">
+             alt="Healthy nutritional snacks">
       </div>
       <div class="carousel-caption d-block text-center">
-        <div class="bg-dark bg-opacity-75 rounded p-2 p-md-3 mb-2">
-          <h4 class="text-warning mb-1"><b>OUR CUSTOMERS EXPECTATIONS</b></h4>
-          <p class="mb-0 small"><b>Multi-packed healthy nutritional contents</b></p>
+        <div class="bg-dark rounded p-3 mb-3">
+          <h4 class="text-warning mb-2">OUR CUSTOMERS EXPECTATIONS</h4>
+          <p class="mb-0">Multi-packed healthy nutritional contents</p>
         </div>
-        <a href="productview.html" class="btn btn-warning btn-sm btn-md-lg mt-2">
+        <a href="productview.html" class="btn btn-warning">
           <i class="bi bi-cart3"></i> View Products
         </a>
       </div>
@@ -211,37 +428,35 @@
     
     <!-- Second Slide -->
     <div class="carousel-item">
-      <div class="carousel-img-container bg-light d-flex justify-content-center align-items-center">
+      <div class="carousel-img-container">
         <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.05.21.jpeg" 
              class="img-fluid" 
-             alt="Nutritional delicacies"
-             style="max-height: 100%; max-width: 100%; object-fit: contain;">
+             alt="Nutritional delicacies">
       </div>
       <div class="carousel-caption d-block text-center">
-        <div class="bg-dark bg-opacity-75 rounded p-2 p-md-3 mb-2">
-          <h4 class="text-warning mb-1"><b>WE OFFER</b></h4>
-          <p class="mb-0 small"><b>Nutritional delicacies for all</b></p>
+        <div class="bg-dark rounded p-3 mb-3">
+          <h4 class="text-warning mb-2">WE OFFER</h4>
+          <p class="mb-0">Nutritional delicacies for all</p>
         </div>
-        <a href="productview.html" class="btn btn-warning btn-sm btn-md-lg mt-2">
+        <a href="productview.html" class="btn btn-warning">
           <i class="bi bi-cart3"></i> View Products
         </a>
       </div>
     </div>
 
-    <!-- third Slide -->
+    <!-- Third Slide -->
     <div class="carousel-item">
-      <div class="carousel-img-container bg-light d-flex justify-content-center align-items-center">
+      <div class="carousel-img-container">
         <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.03.49 (2).jpeg" 
              class="img-fluid" 
-             alt="Nutritional delicacies"
-             style="max-height: 100%; max-width: 100%; object-fit: contain;">
+             alt="Delicious baked goods">
       </div>
       <div class="carousel-caption d-block text-center">
-        <div class="bg-dark bg-opacity-75 rounded p-2 p-md-3 mb-2">
-          <h4 class="text-warning mb-1"><b>WE OFFER</b></h4>
-          <p class="mb-0 small"><b>Nutritional delicacies for all</b></p>
+        <div class="bg-dark rounded p-3 mb-3">
+          <h4 class="text-warning mb-2">PREMIUM QUALITY</h4>
+          <p class="mb-0">Freshly baked with the finest ingredients</p>
         </div>
-        <a href="productview.html" class="btn btn-warning btn-sm btn-md-lg mt-2">
+        <a href="productview.html" class="btn btn-warning">
           <i class="bi bi-cart3"></i> View Products
         </a>
       </div>
@@ -256,105 +471,103 @@
 </div>
 
 <!-- Main Content Section -->
-<div class="container-fluid my-3 my-md-5">
+<div class="container">
   <!-- First Content Section -->
-  <div class="row align-items-stretch content-section">
+  <div class="row align-items-center content-section">
     <!-- Text Content Column -->
-    <div class="col-lg-6 col-md-12 d-flex align-items-center order-2 order-lg-1">
-      <div class="pe-md-5 p-3">
-        <div class="d-flex align-items-center mb-3 mb-md-4">
-          <i class="bi bi-egg-fried display-6 display-md-4 text-warning me-2 me-md-3"></i>
-          <h2 class="text-dark mb-0 h4 h2-md">About Our Abuja-Based Delicacies</h2>
+    <div class="col-lg-6 col-md-12 order-2 order-lg-1">
+      <div class="pe-lg-5">
+        <div class="d-flex align-items-center mb-4">
+          <i class="bi bi-egg-fried icon-large me-3"></i>
+          <h2 class="text-dark mb-0">About Our Abuja-Based Delicacies</h2>
         </div>
-        <p class="lead position-relative small-md">
+        <p class="lead mb-4 position-relative">
           <i class="bi bi-pepper-hot text-danger position-absolute d-none d-md-block" style="left: -25px; top: -10px;"></i>
           From the heart of Nigeria's capital, Oma's Frosted Bites crafts premium snacks using the finest locally-sourced ingredients to satisfy your cravings while nourishing your body.
         </p>
         
-        <div class="bg-light p-3 p-md-4 rounded shadow-sm mb-3 mb-md-4 position-relative">
-          <i class="bi bi-geo-alt-fill fs-3 fs-md-1 text-warning position-absolute d-none d-md-block" style="right: 20px; top: -15px;"></i>
-          <h5 class="text-warning h6 h5-md"><i class="bi bi-shop-window"></i> Proudly Made in Abuja</h5>
-          <p class="small-md">Our kitchen in Abuja's vibrant culinary scene allows us to blend traditional Nigerian flavors with modern healthy snack innovations, creating unique treats you won't find elsewhere.</p>
+        <div class="content-highlight mb-4">
+          <i class="bi bi-geo-alt-fill icon-large position-absolute d-none d-md-block" style="right: 20px; top: -15px;"></i>
+          <h5 class="text-warning"><i class="bi bi-shop-window me-2"></i> Proudly Made in Abuja</h5>
+          <p>Our kitchen in Abuja's vibrant culinary scene allows us to blend traditional Nigerian flavors with modern healthy snack innovations, creating unique treats you won't find elsewhere.</p>
         </div>
         
-        <p class="position-relative small-md">
+        <p class="position-relative mb-4">
           <i class="bi bi-basket2-fill text-warning position-absolute d-none d-md-block" style="left: -25px;"></i>
           We use real tropical fruits, indigenous nuts, and wholesome grains sourced from Nigerian farmers. All products are free from artificial preservatives and additives - just pure, honest nutrition.
         </p>
-        <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 gap-md-3 mt-3 mt-md-4">
-          <a href="productview.html" class="btn btn-dark flex-grow-0 hover-grow btn-sm btn-md">
-            <i class="bi bi-basket me-1 me-md-2"></i> View Products
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="productview.html" class="btn btn-dark hover-grow">
+            <i class="bi bi-basket me-2"></i> View Products
           </a>
-          <a href="#" class="btn btn-outline-dark flex-grow-0 hover-grow btn-sm btn-md">
-            <i class="bi bi-geo-alt me-1 me-md-2"></i> Abuja Locations
+          <a href="#" class="btn btn-outline-dark hover-grow">
+            <i class="bi bi-geo-alt me-2"></i> Abuja Locations
           </a>
         </div>
       </div>
     </div>
     
     <!-- Image Column -->
-    <div class="col-lg-6 col-md-12 p-0 position-relative order-1 order-lg-2 mb-3 mb-md-0">
-      <div class="h-100 d-flex align-items-center justify-content-center bg-light p-3 p-md-4">
+    <div class="col-lg-6 col-md-12 position-relative order-1 order-lg-2 mb-4 mb-lg-0">
+      <div class="d-flex align-items-center justify-content-center bg-light p-4 rounded-3">
         <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.07.10.jpeg" 
              alt="Oma's Frosted Bites products made in Abuja, Nigeria" 
-             class="img-fluid rounded-3 rounded-md-4 shadow-lg animate-float" 
-             style="max-height: 80%; max-width: 100%; object-fit: contain; border: 4px solid white;">
+             class="content-img animate-float">
       </div>
-      <div class="position-absolute top-0 end-0 m-2 m-md-3">
-        <i class="bi bi-egg-fried fs-4 fs-md-1 text-warning animate-bounce d-none d-md-block"></i>
+      <div class="position-absolute top-0 end-0 m-3">
+        <i class="bi bi-egg-fried fs-1 text-warning animate-bounce d-none d-md-block"></i>
       </div>
-      <div class="position-absolute bottom-0 start-0 m-2 m-md-3">
-        <i class="bi bi-cup-hot fs-4 fs-md-1 text-warning animate-wiggle d-none d-md-block"></i>
+      <div class="position-absolute bottom-0 start-0 m-3">
+        <i class="bi bi-cup-hot fs-1 text-warning animate-wiggle d-none d-md-block"></i>
       </div>
     </div>
   </div>
   
   <!-- Second Content Section -->
-  <div class="row align-items-stretch content-section mt-3 mt-md-5">
+  <div class="row align-items-center content-section">
     <!-- Image Column -->
-    <div class="col-lg-6 col-md-12 p-0 position-relative order-1 order-md-1 order-lg-1 mb-3 mb-md-0">
-      <div class="h-100 d-flex align-items-center justify-content-center bg-light p-3 p-md-4">
+    <div class="col-lg-6 col-md-12 position-relative mb-4 mb-lg-0">
+      <div class="d-flex align-items-center justify-content-center bg-light p-4 rounded-3">
         <img src="images/oma bites/WhatsApp Image 2025-08-12 at 08.05.21.jpeg" 
              alt="Abuja ingredients used in Oma's Frosted Bites" 
-             class="img-fluid rounded-3 rounded-md-4 shadow-lg animate-float-delay" 
-             style="max-height: 80%; max-width: 100%; object-fit: contain; border: 4px solid white;">
+             class="content-img animate-float-delay">
       </div>
-      <div class="position-absolute top-0 start-0 m-2 m-md-3">
-        <i class="bi bi-pepper fs-4 fs-md-1 text-danger animate-bounce-delay d-none d-md-block"></i>
+      <div class="position-absolute top-0 start-0 m-3">
+        <i class="bi bi-pepper fs-1 text-danger animate-bounce-delay d-none d-md-block"></i>
       </div>
-      <div class="position-absolute bottom-0 end-0 m-2 m-md-3">
-        <i class="bi bi-mortarboard fs-4 fs-md-1 text-warning animate-wiggle-delay d-none d-md-block"></i>
+      <div class="position-absolute bottom-0 end-0 m-3">
+        <i class="bi bi-mortarboard fs-1 text-warning animate-wiggle-delay d-none d-md-block"></i>
       </div>
     </div>
     
     <!-- Text Content Column -->
-    <div class="col-lg-6 col-md-12 d-flex align-items-center order-2 order-md-2 order-lg-2">
-      <div class="ps-md-5 p-3">
-        <div class="d-flex align-items-center mb-3 mb-md-4">
-          <i class="bi bi-award display-6 display-md-4 text-warning me-2 me-md-3"></i>
-          <h2 class="text-dark mb-0 h4 h2-md">Our Abuja Promise</h2>
+    <div class="col-lg-6 col-md-12">
+      <div class="ps-lg-5">
+        <div class="d-flex align-items-center mb-4">
+          <i class="bi bi-award icon-large me-3"></i>
+          <h2 class="text-dark mb-0">Our Abuja Promise</h2>
         </div>
-        <p class="lead position-relative small-md">
+        <p class="lead mb-4 position-relative">
           <i class="bi bi-star-fill text-warning position-absolute d-none d-md-block" style="left: -25px; top: -10px;"></i>
           Every bite delivers authentic Abuja flavors with uncompromising quality standards.
         </p>
         
-        <div class="bg-light p-3 p-md-4 rounded shadow-sm mb-3 mb-md-4 position-relative">
-          <i class="bi bi-shield-check fs-3 fs-md-1 text-warning position-absolute d-none d-md-block" style="right: 20px; top: -15px;"></i>
-          <h5 class="text-warning h6 h5-md"><i class="bi bi-check-circle"></i> Quality Guarantee</h5>
-          <p class="small-md">We maintain strict quality control from our Abuja kitchen to your table, ensuring every product meets our high standards.</p>
+        <div class="content-highlight mb-4">
+          <i class="bi bi-shield-check icon-large position-absolute d-none d-md-block" style="right: 20px; top: -15px;"></i>
+          <h5 class="text-warning"><i class="bi bi-check-circle me-2"></i> Quality Guarantee</h5>
+          <p>We maintain strict quality control from our Abuja kitchen to your table, ensuring every product meets our high standards.</p>
         </div>
         
-        <p class="position-relative small-md">
+        <p class="position-relative mb-4">
           <i class="bi bi-people-fill text-warning position-absolute d-none d-md-block" style="left: -25px;"></i>
           Our team of Abuja-based nutritionists and chefs work together to create snacks that are as nutritious as they are delicious, using traditional preparation methods with modern food safety standards.
         </p>
-        <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 gap-md-3 mt-3 mt-md-4">
-          <a href="#" class="btn btn-dark flex-grow-0 hover-grow btn-sm btn-md">
-            <i class="bi bi-people me-1 me-md-2"></i> Meet Our Team
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="#" class="btn btn-dark hover-grow">
+            <i class="bi bi-people me-2"></i> Meet Our Team
           </a>
-          <a href="#" class="btn btn-outline-dark flex-grow-0 hover-grow btn-sm btn-md">
-            <i class="bi bi-journal-text me-1 me-md-2"></i> Our Process
+          <a href="#" class="btn btn-outline-dark hover-grow">
+            <i class="bi bi-journal-text me-2"></i> Our Process
           </a>
         </div>
       </div>
@@ -363,31 +576,35 @@
 </div>
 
 <!-- Abuja Specialties Section -->
-<div class="container-fluid mt-3 mt-md-5 pt-3 pt-md-4 border-top">
+<div class="container mt-5 pt-5 border-top">
   <div class="row">
-    <div class="col-12 text-center mb-3 mb-md-4">
-      <h3 class="h4 h3-md">Abuja-Inspired Specialties</h3>
+    <div class="col-12 text-center mb-5">
+      <h2 class="section-title">Abuja-Inspired Specialties</h2>
+      <p class="text-muted">Discover what makes our Abuja-based bakery unique</p>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-lg-4 col-md-6 mb-3 mb-md-4 equal-height-col">
-      <div class="card h-100 border-warning">
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="specialty-card h-100">
         <div class="card-body">
-          <h5 class="card-title text-warning h6 h5-md"><i class="bi bi-tree-fill"></i> Local Ingredients</h5>
-          <p class="card-text small-md">We partner with Abuja-area farmers to source fresh, seasonal ingredients that capture the authentic flavors of central Nigeria.</p>
+          <h5 class="card-title"><i class="bi bi-tree-fill me-2"></i> Local Ingredients</h5>
+          <p class="card-text">We partner with Abuja-area farmers to source fresh, seasonal ingredients that capture the authentic flavors of central Nigeria.</p>
         </div>
-        <div class="card-footer bg-transparent border-warning p-2 p-md-3">
-          <img src="images/oma bites/ingredients.jpg" alt="Local Abuja ingredients" class="img-fluid rounded">
+        <div class="card-footer bg-transparent p-3">
+          <div class="bg-light p-3 rounded text-center">
+            <i class="bi bi-flower1 display-4 text-warning"></i>
+            <p class="mt-2 mb-0 small">Fresh from Abuja farms</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-md-6 mb-3 mb-md-4 equal-height-col">
-      <div class="card h-100 border-warning">
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="specialty-card h-100">
         <div class="card-body">
-          <h5 class="card-title text-warning h6 h5-md"><i class="bi bi-brightness-high"></i> Abuja Climate</h5>
-          <p class="card-text small-md">Our recipes are specially formulated for Abuja's tropical savanna climate, ensuring perfect texture and freshness.</p>
+          <h5 class="card-title"><i class="bi bi-brightness-high me-2"></i> Abuja Climate</h5>
+          <p class="card-text">Our recipes are specially formulated for Abuja's tropical savanna climate, ensuring perfect texture and freshness.</p>
         </div>
-        <div class="card-footer bg-transparent border-warning p-2 p-md-3">
+        <div class="card-footer bg-transparent p-3">
           <div id="abujaClimate" class="text-center">
             <div class="d-flex justify-content-center align-items-center mb-2">
               <div class="spinner-border spinner-border-sm text-warning me-2" role="status">
@@ -397,68 +614,86 @@
             </div>
           </div>
         </div>
-        
-        
       </div>
     </div>
-    <div class="col-lg-4 col-md-6 mb-3 mb-md-4 equal-height-col">
-      <div class="card h-100 border-warning">
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="specialty-card h-100">
         <div class="card-body">
-          <h5 class="card-title text-warning h6 h5-md"><i class="bi bi-people-fill"></i> Community Focus</h5>
-          <p class="card-text small-md">As an Abuja-based business, we're committed to supporting local food entrepreneurs and nutrition initiatives.</p>
+          <h5 class="card-title"><i class="bi bi-people-fill me-2"></i> Community Focus</h5>
+          <p class="card-text">As an Abuja-based business, we're committed to supporting local food entrepreneurs and nutrition initiatives.</p>
         </div>
-        <div class="card-footer bg-transparent border-warning p-0 overflow-hidden">
+        <div class="card-footer bg-transparent p-0 overflow-hidden">
           <!-- Embedded Abuja Map -->
           <div id="abujaMap" style="height: 200px; width: 100%;" class="rounded-bottom"></div>
-          
-          <!-- Fallback Image -->
-          <img src="images/oma bites/community.jpg" alt="Abuja community" class="img-fluid rounded d-none">
         </div>
       </div>
     </div>
-    
-    
-    
-    
-    
   </div>
 </div>
 
-<footer class="bg-dark text-light pt-4 pt-md-5 pb-3 mt-3 mt-md-5">
-  <div class="container-fluid">
+<!-- Call to Action -->
+<div class="container my-5 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <div class="content-highlight p-5">
+        <h2 class="mb-3">Ready to Taste Abuja's Finest Baked Goods?</h2>
+        <p class="lead mb-4">Order now and experience the difference of locally-sourced, freshly-baked treats delivered to your doorstep in Abuja.</p>
+        <a href="productview.html" class="btn btn-warning btn-lg">
+          <i class="bi bi-basket me-2"></i> Order Now
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="pt-5 pb-4" id="contact">
+  <div class="container">
     <div class="row">
       <!-- Logo & About -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites" class="offcanvas-logo mb-2 mb-md-3">
-        <p class="small-md">Oma's Frosted Bites delivers healthy, delicious snacks for all ages. We blend fruits, nuts, and wholesome ingredients to create snacks that fuel your day.</p>
+      <div class="col-lg-4 col-md-6 mb-4 footer-section">
+        <img src="images/oma bites/omaslogo.jpeg" alt="Oma's Frosted Bites" class="footer-logo mb-3">
+        <h5 class="footer-heading">Oma's Frosted Bites</h5>
+        <p class="mb-3">We deliver healthy, delicious baked goods for all ages. We blend fruits, nuts, and wholesome ingredients to create snacks that fuel your day.</p>
       </div>
 
       <!-- Quick Links -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <h5 class="fw-bold h6 h5-md">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li class="mb-1 mb-md-2"><a href="index.html" class="text-light text-decoration-none small-md">Home</a></li>
-          <li class="mb-1 mb-md-2"><a href="productview.html" class="text-light text-decoration-none small-md">Order Products</a></li>
-          
-          <li class="mb-1 mb-md-2"><a href="#" class="text-light text-decoration-none small-md">Contact Us</a></li>
-        </ul>
+      <div class="col-lg-2 col-md-6 mb-4 footer-section">
+        <h5 class="footer-heading">Quick Links</h5>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="productview.html">Our Products</a>
+          <a href="#contact">Contact Us</a>
+        </div>
       </div>
 
       <!-- Contact & Social -->
-      <div class="col-lg-4 col-md-12 mb-4">
-        <h5 class="fw-bold h6 h5-md">Contact Us</h5>
-        <p class="small-md"><i class="bi bi-envelope me-2"></i> <a href="mailto:aginablessing@gmail.com" class="text-light text-decoration-none">aginablessing@gmail.com</a></p>
-        <p class="small-md"><i class="bi bi-phone me-2"></i> +2348177409578</p>
-        <p class="small-md"><i class="bi bi-geo-alt me-2"></i> Abuja, Nigeria</p>
-        <div class="mt-2 mt-md-3">
-          <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light me-2 me-md-3"><i class="bi bi-facebook fs-5 fs-md-4"></i></a>
-          <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light me-2 me-md-3"><i class="bi bi-instagram fs-5 fs-md-4"></i></a>
-          <a href="https://www.instagram.com/invites/contact/?i=jwx7yjct7nfo&utm_content=loz43gdhttps://" class="text-light"><i class="bi bi-twitter fs-5 fs-md-4"></i></a>
+      <div class="col-lg-3 col-md-6 mb-4 footer-section">
+        <h5 class="footer-heading">Contact Us</h5>
+        <div class="footer-links">
+          <p class="mb-2"><i class="bi bi-envelope me-2"></i> <a href="mailto:aginablessing@gmail.com" class="text-decoration-none">aginablessing@gmail.com</a></p>
+          <p class="mb-2"><i class="bi bi-phone me-2"></i> <a href="productview.html">Orrder Products</a> </p>
+          <p class="mb-3"><i class="bi bi-geo-alt me-2"></i> Abuja, Nigeria</p>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Newsletter -->
+      <div class="col-lg-3 col-md-6 mb-4 footer-section">
+        <h5 class="footer-heading">Stay Updated</h5>
+        <p class="mb-3">Subscribe to get special offers and baking tips!</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Your email">
+          <button class="btn btn-warning" type="button">Subscribe</button>
         </div>
       </div>
     </div>
-    <hr class="border-light">
-    <div class="text-center small text-warning">
+    <hr class="border-light my-4">
+    <div class="text-center text-warning">
       &copy; <span id="currentYear"></span> Oma's Frosted Bites. All rights reserved.
     </div>
   </div>
@@ -467,103 +702,86 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-
-
-          // Fetch Abuja weather data
-          function fetchAbujaClimate() {
-            const apiKey = 'YOUR_API_KEY'; // Replace with actual API key
-            const city = 'Abuja';
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-            
-            fetch(url)
-              .then(response => response.json())
-              .then(data => {
-                const weather = data.weather[0];
-                const main = data.main;
-                
-                const climateHTML = `
-                  <div class="climate-data">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="text-start">
-                        <h6 class="mb-1">${city} Now</h6>
-                        <p class="mb-0 small">${weather.description}</p>
-                      </div>
-                      <img src="https://openweathermap.org/img/wn/${weather.icon}.png" alt="${weather.description}">
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                      <div>
-                        <i class="bi bi-thermometer-half text-danger"></i>
-                        <span>${Math.round(main.temp)}°C</span>
-                      </div>
-                      <div>
-                        <i class="bi bi-droplet text-primary"></i>
-                        <span>${main.humidity}%</span>
-                      </div>
-                      <div>
-                        <i class="bi bi-wind text-info"></i>
-                        <span>${Math.round(data.wind.speed * 3.6)} km/h</span>
-                      </div>
-                    </div>
-                    <p class="small text-muted mt-2 mb-0">Updated: ${new Date().toLocaleTimeString()}</p>
-                  </div>
-                `;
-                
-                document.getElementById('abujaClimate').innerHTML = climateHTML;
-              })
-              .catch(error => {
-                document.getElementById('abujaClimate').innerHTML = `
-                  <div class="alert alert-warning small mb-0">
-                    <i class="bi bi-exclamation-triangle"></i> Couldn't load climate data
-                  </div>
-                `;
-                console.error('Error fetching climate data:', error);
-              });
-          }
-        
-          // Call the function when page loads
-          document.addEventListener('DOMContentLoaded', fetchAbujaClimate);
-        
-  // Auto-update year
+  // Set current year in footer
   document.getElementById("currentYear").textContent = new Date().getFullYear();
   
   // Initialize carousel
   var myCarousel = new bootstrap.Carousel(document.getElementById('mainCarousel'), {
-    interval: 3000,
+    interval: 4000,
     wrap: true
   });
 
+  // Fetch Abuja weather data
+  function fetchAbujaClimate() {
+    // In a real implementation, you would use an API key here
+    // For demonstration, we'll use mock data
+    setTimeout(() => {
+      document.getElementById('abujaClimate').innerHTML = `
+        <div class="climate-data">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-start">
+              <h6 class="mb-1">Abuja Now</h6>
+              <p class="mb-0 small">Partly cloudy</p>
+            </div>
+            <i class="bi bi-cloud-sun fs-1 text-warning"></i>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <div>
+              <i class="bi bi-thermometer-half text-danger"></i>
+              <span>32°C</span>
+            </div>
+            <div>
+              <i class="bi bi-droplet text-primary"></i>
+              <span>65%</span>
+            </div>
+            <div>
+              <i class="bi bi-wind text-info"></i>
+              <span>12 km/h</span>
+            </div>
+          </div>
+          <p class="small text-muted mt-2 mb-0">Perfect baking weather!</p>
+        </div>
+      `;
+    }, 1500);
+  }
 
+  // Initialize map
+  function initMap() {
+    // Abuja coordinates (Central Business District)
+    const abujaCoords = [9.05785, 7.49508];
+    
+    // Initialize map
+    const map = L.map('abujaMap').setView(abujaCoords, 13);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // Add marker with popup
+    const marker = L.marker(abujaCoords).addTo(map)
+      .bindPopup("<b>Oma's Frosted Bites</b><br>Abuja, Nigeria")
+      .openPopup();
+    
+    // Add circle to show community focus area
+    L.circle(abujaCoords, {
+      color: '#ffc107',
+      fillColor: '#ffc107',
+      fillOpacity: 0.2,
+      radius: 1500
+    }).addTo(map).bindPopup("Our community impact area");
+  }
 
+  // Initialize when page loads
   document.addEventListener('DOMContentLoaded', function() {
-        // Abuja coordinates (Central Business District)
-        const abujaCoords = [9.05785, 7.49508];
-        
-        // Initialize map
-        const map = L.map('abujaMap').setView(abujaCoords, 13);
-        
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Add marker with popup
-        const marker = L.marker(abujaCoords).addTo(map)
-          .bindPopup("<b>Oma's Frosted Bites</b><br>Abuja, Nigeria")
-          .openPopup();
-        
-        // Add circle to show community focus area
-        L.circle(abujaCoords, {
-          color: '#ffc107',
-          fillColor: '#ffc107',
-          fillOpacity: 0.2,
-          radius: 1500
-        }).addTo(map).bindPopup("Our community impact area");
-      });
+    fetchAbujaClimate();
+    initMap();
+  });
 </script>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
 </body>
 </html>
